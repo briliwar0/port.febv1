@@ -117,13 +117,6 @@ const Navbar = () => {
             >
               Contact
             </a>
-            <Link
-              href="/ui-demo"
-              className="font-medium text-primary hover:text-primary/80 transition-colors"
-              onClick={handleLinkClick}
-            >
-              UI Demo
-            </Link>
             <ThemeToggle />
           </div>
         </div>
@@ -189,13 +182,6 @@ const Navbar = () => {
               >
                 Contact
               </a>
-              <Link
-                href="/ui-demo"
-                className="font-medium text-primary hover:text-primary/80 transition-colors py-2"
-                onClick={handleLinkClick}
-              >
-                UI Demo
-              </Link>
               <div className="flex justify-between items-center pt-2">
                 <span className="text-sm text-muted-foreground">Toggle theme</span>
                 <ThemeToggle />

@@ -15,6 +15,9 @@ const AutomaticUI = () => {
 
   // Tentukan apakah pengunjung baru berdasarkan localStorage
   const isNewVisitor = () => {
+    // Reset localStorage untuk debugging
+    localStorage.removeItem('lastVisit');
+    
     const lastVisit = localStorage.getItem('lastVisit');
     const now = new Date().toISOString();
     
@@ -40,49 +43,39 @@ const AutomaticUI = () => {
     // Hanya tampilkan di halaman utama
     if (location !== '/') return;
     
-    // Periksa apakah pengunjung baru
-    const isNew = isNewVisitor();
+    // Selalu tampilkan semua komponen UI (tidak memperhatikan apakah pengunjung baru atau tidak)
     
-    if (isNew) {
-      // Tampilkan toast setelah 1 detik
-      const toastTimer = setTimeout(() => {
-        toast({
-          title: "Selamat Datang!",
-          description: "Terima kasih telah mengunjungi portfolio website saya.",
-          variant: "default",
-        });
-      }, 1000);
-      
-      // Tampilkan popup setelah 3 detik
-      const popupTimer = setTimeout(() => {
-        setShowPopup(true);
-      }, 3000);
-      
-      // Tampilkan modal setelah 6 detik
-      const modalTimer = setTimeout(() => {
-        setShowWelcomeModal(true);
-      }, 6000);
-      
-      // Tampilkan chatbot setelah 10 detik
-      const chatbotTimer = setTimeout(() => {
-        setShowChatbot(true);
-      }, 10000);
-      
-      // Cleanup timers
-      return () => {
-        clearTimeout(toastTimer);
-        clearTimeout(popupTimer);
-        clearTimeout(modalTimer);
-        clearTimeout(chatbotTimer);
-      };
-    } else {
-      // Untuk pengunjung yang sudah pernah berkunjung, hanya tampilkan chatbot setelah beberapa detik
-      const chatbotTimer = setTimeout(() => {
-        setShowChatbot(true);
-      }, 5000);
-      
-      return () => clearTimeout(chatbotTimer);
-    }
+    // Tampilkan toast setelah 1 detik
+    const toastTimer = setTimeout(() => {
+      toast({
+        title: "Selamat Datang!",
+        description: "Terima kasih telah mengunjungi portfolio website saya.",
+        variant: "default",
+      });
+    }, 1000);
+    
+    // Tampilkan popup setelah 3 detik
+    const popupTimer = setTimeout(() => {
+      setShowPopup(true);
+    }, 3000);
+    
+    // Tampilkan modal setelah 6 detik
+    const modalTimer = setTimeout(() => {
+      setShowWelcomeModal(true);
+    }, 6000);
+    
+    // Tampilkan chatbot setelah 10 detik
+    const chatbotTimer = setTimeout(() => {
+      setShowChatbot(true);
+    }, 10000);
+    
+    // Cleanup timers
+    return () => {
+      clearTimeout(toastTimer);
+      clearTimeout(popupTimer);
+      clearTimeout(modalTimer);
+      clearTimeout(chatbotTimer);
+    };
   }, [location, toast]);
 
   // Template untuk modal selamat datang

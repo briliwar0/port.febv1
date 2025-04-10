@@ -15,7 +15,12 @@ export const SOCIAL_LINKS: SocialLink[] = [
   { 
     platform: 'X', 
     url: 'https://x.com/febrideveloper', 
-    icon: 'twitter' 
+    icon: 'x-twitter' 
+  },
+  { 
+    platform: 'Facebook', 
+    url: 'https://facebook.com/febriliantisna', 
+    icon: 'facebook-f' 
   },
   { 
     platform: 'Instagram', 

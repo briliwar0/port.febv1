@@ -12,3 +12,8 @@ export { Avatar, AvatarFallback, AvatarImage } from './avatar';
 export { Tabs, TabsContent, TabsList, TabsTrigger } from './tabs';
 export { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from './dialog';
 export { toast } from '../../hooks/use-toast';
+
+// New UI components
+export { Modal } from './modal';
+export { Popup } from './popup';
+export { AIChatbot } from './ai-chatbot';

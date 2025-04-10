@@ -36,19 +36,24 @@ export default function UIDemo() {
   const { toast } = useToast();
 
   const showToast = (type: 'default' | 'destructive' | 'success') => {
-    const toastOptions = {
-      title: type === 'default' ? 'Information' : type === 'destructive' ? 'Error' : 'Success',
-      description: `This is a ${type} toast notification example.`,
-      variant: type === 'destructive' ? 'destructive' : type === 'success' ? 'default' : 'default',
-    };
-    
-    if (type === 'success') {
+    if (type === 'destructive') {
       toast({
-        ...toastOptions,
+        title: 'Error',
+        description: 'This is an error toast notification example.',
+        variant: 'destructive',
+      });
+    } else if (type === 'success') {
+      toast({
+        title: 'Success',
         description: 'Operation completed successfully!',
+        variant: 'default',
       });
     } else {
-      toast(toastOptions);
+      toast({
+        title: 'Information',
+        description: 'This is a default toast notification example.',
+        variant: 'default',
+      });
     }
   };
 

@@ -3,6 +3,7 @@ import Home from "@/pages/Home";
 import Checkout from "@/pages/checkout";
 import UIDemo from "@/pages/ui-demo";
 import CustomCursor from "@/components/CustomCursor";
+import AutomaticUI from "@/components/AutomaticUI";
 import { Route, Switch } from "wouter";
 import NotFound from "@/pages/not-found";
 
@@ -17,6 +18,7 @@ function App() {
         <Route component={NotFound} />
       </Switch>
       <Toaster />
+      <AutomaticUI />
     </>
   );
 }

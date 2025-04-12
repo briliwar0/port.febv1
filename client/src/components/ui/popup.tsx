@@ -94,25 +94,25 @@ const Popup = ({
             exit={{ opacity: 0, scale: 0.95, y: position === 'top' ? -20 : position === 'bottom' ? 20 : 0 }}
             transition={{ duration: 0.2 }}
             className={cn(
-              'pointer-events-auto fixed w-[90vw] sm:max-w-sm rounded-lg border shadow-lg',
+              'pointer-events-auto fixed w-[80vw] sm:w-[90vw] sm:max-w-sm rounded-lg border shadow-md',
               positionClass[position],
               getBackgroundClass(),
               className
             )}
           >
-            <div className="p-4">
+            <div className="p-2 sm:p-4">
               {/* Header with icon and title */}
               <div className="flex items-center">
-                <div className="flex-shrink-0 mr-3">{getIcon()}</div>
-                <h3 className="text-sm font-medium">{title}</h3>
+                <div className="flex-shrink-0 mr-2 sm:mr-3">{getIcon()}</div>
+                <h3 className="text-xs sm:text-sm font-medium">{title}</h3>
                 {showCloseButton && (
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="ml-auto -mr-1 h-6 w-6 rounded-full opacity-70 hover:opacity-100"
+                    className="ml-auto -mr-1 h-5 w-5 sm:h-6 sm:w-6 rounded-full opacity-70 hover:opacity-100"
                     onClick={onClose}
                   >
-                    <X className="h-3 w-3" />
+                    <X className="h-2 w-2 sm:h-3 sm:w-3" />
                     <span className="sr-only">Close</span>
                   </Button>
                 )}
@@ -120,16 +120,17 @@ const Popup = ({
 
               {/* Message */}
               {message && (
-                <div className="mt-2 text-sm text-muted-foreground">
+                <div className="mt-1 sm:mt-2 text-[10px] sm:text-sm text-muted-foreground">
                   {message}
                 </div>
               )}
 
               {/* Action button */}
               {actionButton && (
-                <div className="mt-4 flex justify-end">
+                <div className="mt-2 sm:mt-4 flex justify-end">
                   <Button 
                     size="sm"
+                    className="h-6 text-xs sm:h-8 sm:text-sm"
                     variant={type === 'error' ? 'destructive' : 'default'}
                     onClick={actionButton.onClick}
                   >

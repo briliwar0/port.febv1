@@ -50,11 +50,11 @@ const Modal = ({
 
   // Size classes - updated for mobile responsiveness
   const sizeClasses = {
-    sm: 'w-[90vw] max-w-sm',
-    md: 'w-[95vw] max-w-md',
-    lg: 'w-[95vw] max-w-lg',
-    xl: 'w-[95vw] max-w-xl',
-    full: 'w-[98vw] max-w-4xl',
+    sm: 'w-[85vw] max-w-xs',
+    md: 'w-[90vw] max-w-sm',
+    lg: 'w-[92vw] max-w-md',
+    xl: 'w-[95vw] max-w-lg',
+    full: 'w-[97vw] max-w-2xl',
   };
 
   return (
@@ -92,31 +92,31 @@ const Modal = ({
               <Button
                 variant="ghost"
                 size="icon"
-                className="absolute right-4 top-4 rounded-full opacity-70 hover:bg-muted hover:opacity-100"
+                className="absolute right-2 top-2 sm:right-4 sm:top-4 h-6 w-6 sm:h-8 sm:w-8 rounded-full opacity-70 hover:bg-muted hover:opacity-100"
                 onClick={onClose}
               >
-                <X className="h-4 w-4" />
+                <X className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="sr-only">Close</span>
               </Button>
             )}
 
             {/* Header */}
             {(title || description) && (
-              <div className="mb-4">
-                {title && <h2 className="text-xl font-bold">{title}</h2>}
+              <div className="mb-3 sm:mb-4">
+                {title && <h2 className="text-base sm:text-xl font-bold">{title}</h2>}
                 {description && (
-                  <p className="mt-1 text-sm text-muted-foreground">{description}</p>
+                  <p className="mt-1 text-xs sm:text-sm text-muted-foreground">{description}</p>
                 )}
               </div>
             )}
 
             {/* Content */}
-            <div className="max-h-[calc(80vh-160px)] overflow-y-auto">
+            <div className="max-h-[calc(60vh-120px)] sm:max-h-[calc(80vh-160px)] overflow-y-auto text-sm sm:text-base">
               {children}
             </div>
 
             {/* Footer */}
-            {footer && <div className="mt-6">{footer}</div>}
+            {footer && <div className="mt-3 sm:mt-6">{footer}</div>}
           </motion.div>
         </div>
       )}

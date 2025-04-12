@@ -148,41 +148,41 @@ const AIChatbot = ({
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
             className={cn(
-              'fixed z-50 flex flex-col w-[85vw] sm:w-80 md:w-96 h-[70vh] sm:h-[500px] max-h-[calc(100vh-2rem)] rounded-xl shadow-xl bg-background border',
+              'fixed z-50 flex flex-col w-[80vw] sm:w-80 md:w-96 h-[60vh] sm:h-[500px] max-h-[calc(100vh-2rem)] rounded-lg shadow-xl bg-background border',
               positionClasses[position],
               className
             )}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b bg-muted/40">
+            <div className="flex items-center justify-between p-2 sm:p-4 border-b bg-muted/40">
               <div className="flex items-center gap-2">
-                <Avatar className="h-8 w-8">
+                <Avatar className="h-6 w-6 sm:h-8 sm:w-8">
                   {botAvatar ? (
                     <AvatarImage src={botAvatar} alt={botName} />
                   ) : (
                     <AvatarFallback>
-                      <Bot className="h-4 w-4" />
+                      <Bot className="h-3 w-3 sm:h-4 sm:w-4" />
                     </AvatarFallback>
                   )}
                 </Avatar>
                 <div>
-                  <h3 className="font-medium text-sm">{botName}</h3>
-                  <p className="text-xs text-muted-foreground">Online</p>
+                  <h3 className="font-medium text-xs sm:text-sm">{botName}</h3>
+                  <p className="text-[10px] sm:text-xs text-muted-foreground">Online</p>
                 </div>
               </div>
               
               <Button 
                 variant="ghost" 
                 size="icon"
-                className="rounded-full opacity-70 hover:opacity-100"
+                className="h-6 w-6 sm:h-8 sm:w-8 rounded-full opacity-70 hover:opacity-100"
                 onClick={onClose}
               >
-                <X className="h-4 w-4" />
+                <X className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
             </div>
             
             {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            <div className="flex-1 overflow-y-auto p-2 sm:p-4 space-y-3 sm:space-y-4">
               {messages.map((message) => (
                 <div
                   key={message.id}
@@ -191,14 +191,14 @@ const AIChatbot = ({
                     message.role === 'user' ? 'justify-end' : 'justify-start'
                   )}
                 >
-                  <div className="flex items-end gap-2 max-w-[80%]">
+                  <div className="flex items-end gap-1 sm:gap-2 max-w-[85%]">
                     {message.role === 'assistant' && (
-                      <Avatar className="h-6 w-6">
+                      <Avatar className="h-5 w-5 sm:h-6 sm:w-6">
                         {botAvatar ? (
                           <AvatarImage src={botAvatar} alt={botName} />
                         ) : (
                           <AvatarFallback>
-                            <Bot className="h-3 w-3" />
+                            <Bot className="h-2 w-2 sm:h-3 sm:w-3" />
                           </AvatarFallback>
                         )}
                       </Avatar>
@@ -206,24 +206,26 @@ const AIChatbot = ({
                     
                     <div
                       className={cn(
-                        'px-3 py-2 rounded-lg text-sm',
+                        'px-2 py-1 sm:px-3 sm:py-2 rounded-lg text-xs sm:text-sm',
                         message.role === 'user'
                           ? 'bg-primary text-primary-foreground'
                           : 'bg-muted'
                       )}
                     >
                       <div>{message.content}</div>
-                      <div className="text-xs opacity-70 mt-1 text-right">
+                      <div className="text-[10px] sm:text-xs opacity-70 mt-1 text-right">
                         {formatTime(message.timestamp)}
                       </div>
                     </div>
                     
                     {message.role === 'user' && (
-                      <Avatar className="h-6 w-6">
+                      <Avatar className="h-5 w-5 sm:h-6 sm:w-6">
                         {userAvatar ? (
                           <AvatarImage src={userAvatar} alt="You" />
                         ) : (
-                          <AvatarFallback>You</AvatarFallback>
+                          <AvatarFallback>
+                            <span className="text-[10px] sm:text-xs">You</span>
+                          </AvatarFallback>
                         )}
                       </Avatar>
                     )}
@@ -233,18 +235,18 @@ const AIChatbot = ({
               
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="flex items-end gap-2 max-w-[80%]">
-                    <Avatar className="h-6 w-6">
+                  <div className="flex items-end gap-1 sm:gap-2 max-w-[85%]">
+                    <Avatar className="h-5 w-5 sm:h-6 sm:w-6">
                       {botAvatar ? (
                         <AvatarImage src={botAvatar} alt={botName} />
                       ) : (
                         <AvatarFallback>
-                          <Bot className="h-3 w-3" />
+                          <Bot className="h-2 w-2 sm:h-3 sm:w-3" />
                         </AvatarFallback>
                       )}
                     </Avatar>
-                    <div className="px-3 py-2 rounded-lg bg-muted">
-                      <Loader2 className="h-4 w-4 animate-spin" />
+                    <div className="px-2 py-1 sm:px-3 sm:py-2 rounded-lg bg-muted">
+                      <Loader2 className="h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
                     </div>
                   </div>
                 </div>
@@ -256,11 +258,11 @@ const AIChatbot = ({
             {/* Input */}
             <form
               onSubmit={handleSubmit}
-              className="border-t p-3 flex gap-2 items-end"
+              className="border-t p-2 sm:p-3 flex gap-1 sm:gap-2 items-end"
             >
               <Textarea
                 placeholder="Type your message..."
-                className="min-h-10 resize-none"
+                className="min-h-8 sm:min-h-10 resize-none text-xs sm:text-sm"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 rows={1}
@@ -275,9 +277,9 @@ const AIChatbot = ({
                 type="submit" 
                 size="icon" 
                 disabled={!inputValue.trim() || isTyping} 
-                className="h-10 w-10 shrink-0"
+                className="h-8 w-8 sm:h-10 sm:w-10 shrink-0"
               >
-                <Send className="h-4 w-4" />
+                <Send className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="sr-only">Send</span>
               </Button>
             </form>

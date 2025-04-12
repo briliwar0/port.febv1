@@ -5,6 +5,22 @@ import { db } from "./db";
 import { eq, and, desc, sql } from "drizzle-orm";
 import crypto from "crypto";
 
+// Helper functions for password hashing
+function generateSalt(): string {
+  return crypto.randomBytes(16).toString('hex');
+}
+
+function hashPassword(password: string, salt: string): string {
+  return crypto
+    .pbkdf2Sync(password, salt, 1000, 64, 'sha512')
+    .toString('hex');
+}
+
+function verifyPassword(password: string, salt: string, storedHash: string): boolean {
+  const hash = hashPassword(password, salt);
+  return hash === storedHash;
+}
+
 // Define storage interface with required CRUD methods
 export interface IStorage {
   // User & Authentication methods
@@ -48,13 +64,59 @@ export class DatabaseStorage implements IStorage {
     const [user] = await db.select().from(users).where(eq(users.username, username));
     return user || undefined;
   }
+  
+  async getUserByEmail(email: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.email, email));
+    return user || undefined;
+  }
 
-  async createUser(insertUser: InsertUser): Promise<User> {
+  async createUser(userData: { username: string, email: string, password: string, role?: string }): Promise<User> {
+    // Generate salt and hash the password
+    const salt = generateSalt();
+    const hashedPassword = hashPassword(userData.password, salt);
+    
+    // Create user in database
     const [user] = await db
       .insert(users)
-      .values(insertUser)
+      .values({
+        username: userData.username,
+        email: userData.email,
+        password: hashedPassword,
+        salt: salt,
+        role: userData.role || 'user'
+      })
       .returning();
+    
     return user;
+  }
+  
+  async verifyUser(loginData: LoginUser): Promise<User | null> {
+    // Find user by username
+    const user = await this.getUserByUsername(loginData.username);
+    
+    // If user not found or inactive, return null
+    if (!user || !user.isActive) {
+      return null;
+    }
+    
+    // Verify password
+    const isPasswordValid = verifyPassword(
+      loginData.password,
+      user.salt,
+      user.password
+    );
+    
+    // Return user if password is valid, otherwise null
+    return isPasswordValid ? user : null;
+  }
+  
+  async updateLastLogin(userId: number): Promise<void> {
+    await db
+      .update(users)
+      .set({
+        lastLogin: new Date()
+      })
+      .where(eq(users.id, userId));
   }
 
   async createMessage(insertMessage: InsertMessage): Promise<Message> {

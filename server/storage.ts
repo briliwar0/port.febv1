@@ -30,6 +30,7 @@ export interface IStorage {
   createUser(userData: { username: string, email: string, password: string, role?: string }): Promise<User>;
   verifyUser(loginData: LoginUser): Promise<User | null>;
   updateLastLogin(userId: number): Promise<void>;
+  updateUserPassword(userId: number, newPassword: string): Promise<boolean>;
   
   // Message methods
   createMessage(message: InsertMessage): Promise<Message>;
@@ -117,6 +118,34 @@ export class DatabaseStorage implements IStorage {
         lastLogin: new Date()
       })
       .where(eq(users.id, userId));
+  }
+  
+  async updateUserPassword(userId: number, newPassword: string): Promise<boolean> {
+    try {
+      // Find user first
+      const user = await this.getUser(userId);
+      if (!user) {
+        return false;
+      }
+      
+      // Generate new salt and hash the new password
+      const salt = generateSalt();
+      const hashedPassword = hashPassword(newPassword, salt);
+      
+      // Update the user's password and salt
+      await db
+        .update(users)
+        .set({
+          password: hashedPassword,
+          salt: salt
+        })
+        .where(eq(users.id, userId));
+      
+      return true;
+    } catch (error) {
+      console.error("Error updating password:", error);
+      return false;
+    }
   }
 
   async createMessage(insertMessage: InsertMessage): Promise<Message> {

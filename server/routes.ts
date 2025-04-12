@@ -292,6 +292,49 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
     }
   });
+  
+  // Update password route
+  app.post("/api/auth/update-password", async (req: Request, res: Response) => {
+    try {
+      const { userId, newPassword } = req.body;
+      
+      if (!userId || !newPassword) {
+        return res.status(400).json({
+          success: false,
+          message: "User ID dan password baru harus diisi"
+        });
+      }
+      
+      // Validasi password
+      if (newPassword.length < 6) {
+        return res.status(400).json({
+          success: false,
+          message: "Password minimal 6 karakter"
+        });
+      }
+      
+      // Update password
+      const result = await storage.updateUserPassword(userId, newPassword);
+      
+      if (result) {
+        res.json({
+          success: true,
+          message: "Password berhasil diperbarui"
+        });
+      } else {
+        res.status(404).json({
+          success: false,
+          message: "User tidak ditemukan"
+        });
+      }
+    } catch (error) {
+      console.error("Error updating password:", error);
+      res.status(500).json({
+        success: false,
+        message: "Gagal memperbarui password"
+      });
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;

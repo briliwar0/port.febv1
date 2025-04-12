@@ -62,11 +62,11 @@ const Popup = ({
     }
   };
 
-  // Get position style
+  // Get position style - updated for mobile
   const positionClass = {
-    top: 'top-4 left-1/2 -translate-x-1/2',
+    top: 'top-2 sm:top-4 left-1/2 -translate-x-1/2',
     center: 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-    bottom: 'bottom-4 left-1/2 -translate-x-1/2',
+    bottom: 'bottom-2 sm:bottom-4 left-1/2 -translate-x-1/2',
   };
 
   // Get background style based on type
@@ -94,7 +94,7 @@ const Popup = ({
             exit={{ opacity: 0, scale: 0.95, y: position === 'top' ? -20 : position === 'bottom' ? 20 : 0 }}
             transition={{ duration: 0.2 }}
             className={cn(
-              'pointer-events-auto fixed max-w-sm w-full rounded-lg border shadow-lg',
+              'pointer-events-auto fixed w-[90vw] sm:max-w-sm rounded-lg border shadow-lg',
               positionClass[position],
               getBackgroundClass(),
               className

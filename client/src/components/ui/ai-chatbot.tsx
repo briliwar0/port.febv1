@@ -127,8 +127,8 @@ const AIChatbot = ({
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       className={cn(
-        "fixed z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg",
-        position === 'bottom-right' ? 'bottom-4 right-4' : 'bottom-4 left-4'
+        "fixed z-40 flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg",
+        position === 'bottom-right' ? 'bottom-2 right-2 sm:bottom-4 sm:right-4' : 'bottom-2 left-2 sm:bottom-4 sm:left-4'
       )}
       onClick={() => (isOpen ? onClose() : onClose())}
     >
@@ -148,7 +148,7 @@ const AIChatbot = ({
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
             className={cn(
-              'fixed z-50 flex flex-col w-80 sm:w-96 h-[500px] max-h-[calc(100vh-2rem)] rounded-xl shadow-xl bg-background border',
+              'fixed z-50 flex flex-col w-[85vw] sm:w-80 md:w-96 h-[70vh] sm:h-[500px] max-h-[calc(100vh-2rem)] rounded-xl shadow-xl bg-background border',
               positionClasses[position],
               className
             )}

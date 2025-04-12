@@ -48,13 +48,13 @@ const Modal = ({
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isOpen, onClose]);
 
-  // Size classes
+  // Size classes - updated for mobile responsiveness
   const sizeClasses = {
-    sm: 'max-w-sm',
-    md: 'max-w-md',
-    lg: 'max-w-lg',
-    xl: 'max-w-xl',
-    full: 'max-w-4xl',
+    sm: 'w-[90vw] max-w-sm',
+    md: 'w-[95vw] max-w-md',
+    lg: 'w-[95vw] max-w-lg',
+    xl: 'w-[95vw] max-w-xl',
+    full: 'w-[98vw] max-w-4xl',
   };
 
   return (
@@ -82,7 +82,7 @@ const Modal = ({
               bounce: 0.2,
             }}
             className={cn(
-              'relative z-50 w-full rounded-lg bg-background p-6 shadow-lg',
+              'relative z-50 w-full rounded-lg bg-background p-4 sm:p-6 shadow-lg',
               sizeClasses[size],
               className
             )}

@@ -1,14 +1,19 @@
 import { messages, type Message, type InsertMessage } from "@shared/schema";
-import { users, type User, type InsertUser } from "@shared/schema";
+import { users, type User, type InsertUser, type LoginUser } from "@shared/schema";
 import { visitors, type Visitor, type InsertVisitor } from "@shared/schema";
 import { db } from "./db";
 import { eq, and, desc, sql } from "drizzle-orm";
+import crypto from "crypto";
 
 // Define storage interface with required CRUD methods
 export interface IStorage {
+  // User & Authentication methods
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  getUserByEmail(email: string): Promise<User | undefined>;
+  createUser(userData: { username: string, email: string, password: string, role?: string }): Promise<User>;
+  verifyUser(loginData: LoginUser): Promise<User | null>;
+  updateLastLogin(userId: number): Promise<void>;
   
   // Message methods
   createMessage(message: InsertMessage): Promise<Message>;

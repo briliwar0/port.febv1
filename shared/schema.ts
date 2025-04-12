@@ -5,7 +5,13 @@ import { z } from "zod";
 export const users = pgTable("users", {
   id: serial("id").primaryKey(),
   username: text("username").notNull().unique(),
+  email: text("email").notNull().unique(),
   password: text("password").notNull(),
+  salt: text("salt").notNull(),
+  role: text("role").default("user").notNull(),
+  isActive: boolean("is_active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  lastLogin: timestamp("last_login"),
 });
 
 export const messages = pgTable("messages", {
@@ -34,9 +40,19 @@ export const visitors = pgTable("visitors", {
   firstVisit: timestamp("first_visit").defaultNow().notNull(),
 });
 
+// Schema untuk pendaftaran user baru
 export const insertUserSchema = createInsertSchema(users).pick({
   username: true,
+  email: true,
   password: true,
+  salt: true,
+  role: true,
+});
+
+// Schema untuk login
+export const loginUserSchema = z.object({
+  username: z.string().min(3, "Username minimal 3 karakter"),
+  password: z.string().min(6, "Password minimal 6 karakter"),
 });
 
 export const insertMessageSchema = createInsertSchema(messages).pick({
@@ -60,6 +76,7 @@ export const insertVisitorSchema = createInsertSchema(visitors).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+export type LoginUser = z.infer<typeof loginUserSchema>;
 
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type Message = typeof messages.$inferSelect;

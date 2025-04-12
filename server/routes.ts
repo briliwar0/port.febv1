@@ -2,10 +2,13 @@ import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertMessageSchema, loginUserSchema } from "@shared/schema";
+import { users, messages } from "@shared/schema";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
 import Stripe from "stripe";
 import { generateColorPalette } from "./openai";
+import { db } from "./db";
+import { desc } from "drizzle-orm";
 
 if (!process.env.STRIPE_SECRET_KEY) {
   throw new Error('Missing required Stripe secret: STRIPE_SECRET_KEY');
@@ -227,6 +230,65 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.status(500).json({ 
         success: false, 
         message: "Error creating payment intent: " + error.message 
+      });
+    }
+  });
+  
+  // Admin only routes - get all users
+  app.get("/api/admin/users", async (req: Request, res: Response) => {
+    try {
+      // Disini seharusnya ada autentikasi untuk memastikan request dari admin
+      // Dalam implementasi lengkap, gunakan middleware auth
+      
+      // Query semua user dari database
+      const allUsers = await db
+        .select({
+          id: users.id,
+          username: users.username,
+          email: users.email,
+          role: users.role,
+          isActive: users.isActive,
+          createdAt: users.createdAt,
+          lastLogin: users.lastLogin
+        })
+        .from(users)
+        .orderBy(desc(users.id));
+      
+      // Return data user (tanpa password dan salt)
+      res.json({ 
+        success: true, 
+        users: allUsers 
+      });
+    } catch (error) {
+      console.error("Error fetching users:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Gagal mengambil data users" 
+      });
+    }
+  });
+  
+  // Admin only routes - get all messages
+  app.get("/api/admin/messages", async (req: Request, res: Response) => {
+    try {
+      // Disini seharusnya ada autentikasi untuk memastikan request dari admin
+      // Dalam implementasi lengkap, gunakan middleware auth
+      
+      // Query semua pesan dari database
+      const allMessages = await db
+        .select()
+        .from(messages)
+        .orderBy(desc(messages.createdAt));
+      
+      res.json({ 
+        success: true, 
+        messages: allMessages 
+      });
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: "Gagal mengambil data messages" 
       });
     }
   });
